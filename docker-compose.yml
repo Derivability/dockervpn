@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  dockervpn:
+    build: 
+      context: .
+      args: 
+        CA_PASS: ${CA_PASS}
+    ports:
+      - "1194:1194"
+    volumes:
+      - ${PWD}/clients:/vpn/clients
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+
