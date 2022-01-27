@@ -1,15 +1,13 @@
 FROM alpine:latest
 
-ARG CA_PASS
-
 WORKDIR /vpn
 
 COPY scripts/* /vpn/scripts/
 COPY conf_templates/server.conf /vpn/server.conf
 
 RUN apk add openvpn easy-rsa &&\
-/vpn/scripts/pkigen.sh 
+sed -i 's/rm -rf \"\$EASYRSA_PKI\"/rm -rf \"\$EASYRSA_PKI\/\*\"/' /usr/share/easy-rsa/easyrsa
 
 EXPOSE 1194/udp
 
-CMD ["openvpn", "server.conf"]
+CMD ["/vpn/scripts/init.sh"]

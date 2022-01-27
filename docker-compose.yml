@@ -4,12 +4,11 @@ services:
   dockervpn:
     build: 
       context: ./src
-      args: 
-        CA_PASS: ${CA_PASS}
     ports:
       - "1194:1194/udp"
     volumes:
       - ${PWD}/clients:/vpn/clients
+      - ${PWD}/pki:/vpn/pki
     cap_add:
       - NET_ADMIN
     devices:
