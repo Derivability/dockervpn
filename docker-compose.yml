@@ -3,7 +3,7 @@ version: '3'
 services:
   dockervpn:
     build: 
-      context: .
+      context: ./src
       args: 
         CA_PASS: ${CA_PASS}
     ports:

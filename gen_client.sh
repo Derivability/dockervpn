@@ -10,13 +10,13 @@ $D_EXEC test -f /vpn/pki/issued/${CLIENT_NAME}.crt
 if [ "$?" != 0 ]
 then
 	set -e
-	$D_EXEC /vpn/add_client.sh ${CLIENT_NAME} ${CA_PASS}
+	$D_EXEC /vpn/scripts/add_client.sh ${CLIENT_NAME} ${CA_PASS}
 fi
 
 
 CONF_FILE="clients/${CLIENT_NAME}.ovpn"
 rm -rf ${CONF_FILE}
-cp client.conf ${CONF_FILE}
+cp src/conf_templates/client.conf ${CONF_FILE}
 sed -i "s/__IP_ADDRESS__/${IP_ADDR}/" ${CONF_FILE}
 
 echo "<ca>" >> ${CONF_FILE}
