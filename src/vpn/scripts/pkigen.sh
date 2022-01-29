@@ -13,6 +13,7 @@ echo -e "${CA_PASS}\n${CA_PASS}\n" | $ersa build-ca
 
 echo | $ersa gen-req dockervpn nopass
 echo -e "yes\n${CA_PASS}" | $ersa sign-req server dockervpn
+$ersa gen-crl
 
 openssl dhparam -dsaparam -out ${PKI_DIR}/dh.pem 4096
 
