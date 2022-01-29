@@ -2,6 +2,11 @@
 
 BASEDIR=$(dirname $0)
 
+if [ -z "${DOMAIN}" ]
+then
+	export DOMAIN=""
+fi
+
 if [ ! -f "${BASEDIR}/pki/ca.crt" ]
 then
 	read -s -p "Enter CA password: " CA_PASS
