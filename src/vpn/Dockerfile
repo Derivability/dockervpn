@@ -14,4 +14,4 @@ sed -i "s/__DOMAIN__/$DOMAIN/" /vpn/server.conf
 
 EXPOSE 1194/udp
 
-CMD ["/vpn/scripts/init.sh"]
+CMD ["openvpn", "server.conf"]

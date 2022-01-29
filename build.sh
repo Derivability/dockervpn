@@ -1,8 +1,11 @@
 #!/bin/sh
 
 BASEDIR=$(dirname $0)
+D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
 
 read -p "Enter domain name [dockervpn.local]: " DOMAIN
+read -s -p "Enter new CA password: " CA_PASS
+echo
 
 if [ -z "$DOMAIN" ]
 then
@@ -11,17 +14,10 @@ else
 	export DOMAIN="${DOMAIN}"
 fi
 
-docker-compose build
+$D_COMPOSE build
 
-${BASEDIR}/run.sh vpn -d
+$D_COMPOSE run vpn scripts/pkigen.sh $CA_PASS
 
-echo -n "Initializing Public Key Infrastructure"
-while [ ! -f "${BASEDIR}/pki/ta.key" ]
-do
-	echo -n "."
-	sleep 1
-done
-echo
+echo -e "dns\nvpn\n1194\n${CA_PASS}" | ${BASEDIR}/gen_client.sh
 
-echo -e "dns\nvpn\n1194\n" | ${BASEDIR}/gen_client.sh
-docker-compose stop vpn
+$D_COMPOSE down

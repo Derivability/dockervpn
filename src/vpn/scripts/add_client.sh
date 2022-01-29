@@ -1,8 +1,13 @@
 #!/bin/sh
 set -e
 
-ersa=/usr/share/easy-rsa/easyrsa
+CA_PASS=$2
 
-echo "" | $ersa gen-req $1 nopass
-echo -e "yes\n" | $ersa sign-req client $1
+function ERSA()
+{
+	/usr/share/easy-rsa/easyrsa --passin=file:<(echo ${CA_PASS}) --passout=file:<(echo ${CA_PASS}) $@
+}
+
+echo "" | ERSA gen-req $1 nopass
+echo -e "yes\n" | ERSA sign-req client $1
 

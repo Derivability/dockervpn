@@ -5,4 +5,4 @@ then
 	echo "yes" | scripts/pkigen.sh
 fi
 
-exec openvpn server.conf
+#exec openvpn server.conf

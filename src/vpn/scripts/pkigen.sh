@@ -1,19 +1,23 @@
 #!/bin/sh
 set -e
 
-ersa=/usr/share/easy-rsa/easyrsa
+CA_PASS=$1
 PKI_DIR=/vpn/pki
 cd /vpn
 
-CA_PASS=$(cat pki/ca_pass)
+function ERSA()
+{
+	/usr/share/easy-rsa/easyrsa --passin=file:<(echo ${CA_PASS}) --passout=file:<(echo ${CA_PASS}) $@
+}
+
 rm -rf ${PKI_DIR}/ca_pass
 
-$ersa init-pki
-echo -e "${CA_PASS}\n${CA_PASS}\n" | $ersa build-ca
+echo "yes" | ERSA init-pki
+echo "DockerVPN CA" | ERSA build-ca
 
-echo | $ersa gen-req dockervpn nopass
-echo -e "yes\n${CA_PASS}" | $ersa sign-req server dockervpn
-$ersa gen-crl
+echo | ERSA gen-req dockervpn nopass
+echo "yes" | ERSA sign-req server dockervpn
+ERSA gen-crl
 
 openssl dhparam -dsaparam -out ${PKI_DIR}/dh.pem 4096
 

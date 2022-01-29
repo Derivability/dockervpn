@@ -3,8 +3,9 @@
 read -p "Enter Client name: " CLIENT_NAME
 read -p "Enter server IP address: " IP_ADDR
 read -p "Enter server port: " PORT
+read -s -p "Enter CA password: " CA_PASS
+echo
 
-export CA_PASS=""
 export DOMAIN=""
 BASEDIR=$(dirname $0)
 D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
