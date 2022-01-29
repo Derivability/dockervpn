@@ -35,7 +35,6 @@ do
 
 	if [ "${NEW_CLIENTS}" == "${CLIENTS}" ] || [ -z "${NEW_CLIENTS}" ]
 	then
-		log "$NEW_CLIENTS"
 		continue
 	fi
 
