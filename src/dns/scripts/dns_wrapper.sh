@@ -29,11 +29,16 @@ touch ${HOST_FILE}
 CLIENTS=""
 while true
 do
-	sleep 10
+	sleep 60
 
 	NEW_CLIENTS="$(grep -E '^(\d{1,3}\.){3}\d{1,3}\,.*\,(\d{1,3}\.){3}\d{1,3}:' ${STATUS_FILE})"
 
-	if [ "${NEW_CLIENTS}" == "${CLIENTS}" ] || [ -z "${NEW_CLIENTS}" ]
+	if [ "${NEW_CLIENTS}" == "${CLIENTS}" ]
+	then
+		continue
+	fi
+
+	if [ -z "${NEW_CLIENTS}" ]
 	then
 		continue
 	fi
