@@ -11,6 +11,7 @@ DOMAIN=$DOMAIN docker-compose build
 
 ./run.sh vpn -d
 
+sleep 5
 echo -e "dns\nvpn\n1194\n" | ./gen_client.sh
 
 docker-compose stop vpn
