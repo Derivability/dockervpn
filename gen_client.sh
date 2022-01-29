@@ -8,7 +8,7 @@ export CA_PASS=""
 export DOMAIN=""
 BASEDIR=$(dirname $0)
 D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
-D_EXEC="${D_COMPOSE}  exec vpn"
+D_EXEC="${D_COMPOSE} exec vpn"
 
 if [ -z "$(${D_COMPOSE} ps | grep vpn | grep running)" ]
 then
