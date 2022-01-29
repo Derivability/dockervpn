@@ -16,8 +16,11 @@ fi
 
 $D_COMPOSE build
 
-$D_COMPOSE run vpn scripts/pkigen.sh $CA_PASS
+if [ ! -f "${BASEDIR}/pki/ca.crt" ]
+then
+	$D_COMPOSE run vpn scripts/pkigen.sh $CA_PASS
 
-echo -e "dns\nvpn\n1194\n${CA_PASS}" | ${BASEDIR}/gen_client.sh
+	echo -e "dns\nvpn\n1194\n${CA_PASS}" | ${BASEDIR}/gen_client.sh
 
-$D_COMPOSE down
+	$D_COMPOSE down
+fi
