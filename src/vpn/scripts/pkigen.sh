@@ -15,4 +15,4 @@ echo -e "yes\n${CA_PASS}" | $ersa sign-req server dockervpn
 
 openssl dhparam -dsaparam -out dh.pem 4096
 
-openvpn --genkey tls-crypt ta.key
+openvpn --genkey tls-crypt pki/ta.key

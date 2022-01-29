@@ -9,4 +9,4 @@ then
 	echo "${CA_PASS}" > "${BASEDIR}/pki/ca_pass"
 fi
 
-docker-compose up
+docker-compose up $@
