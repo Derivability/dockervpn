@@ -7,7 +7,20 @@ read -p "Enter server port: " PORT
 export CA_PASS=""
 export DOMAIN=""
 BASEDIR=$(dirname $0)
-D_EXEC="docker-compose -f ${BASEDIR}/docker-compose.yml exec vpn"
+D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
+D_EXEC="${D_COMPOSE}  exec vpn"
+
+if [ -z "$(${D_COMPOSE} ps | grep vpn | grep running)" ]
+then
+	MANUAL_START=1
+else
+	MANUAL_START=0
+fi
+
+if [ "$MANUAL_START" -eq 1 ]
+then
+	${BASEDIR}/run.sh vpn -d
+fi
 
 $D_EXEC test -f /vpn/pki/issued/${CLIENT_NAME}.crt
 if [ "$?" != 0 ]
@@ -15,7 +28,6 @@ then
 	set -e
 	$D_EXEC /vpn/scripts/add_client.sh ${CLIENT_NAME} ${CA_PASS}
 fi
-
 
 CONF_FILE="${BASEDIR}/clients/${CLIENT_NAME}.ovpn"
 D_CONF_FILE="/vpn/clients/${CLIENT_NAME}.ovpn"
@@ -38,3 +50,8 @@ $D_EXEC sh -c "cat /vpn/pki/ta.key >> ${D_CONF_FILE};"
 echo "</tls-crypt>" >> ${CONF_FILE}
 
 echo "Done!"
+
+if [ "$MANUAL_START" -eq 1 ]
+then
+	${D_COMPOSE} stop vpn
+fi
