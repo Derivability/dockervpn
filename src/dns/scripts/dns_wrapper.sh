@@ -6,7 +6,6 @@ STATUS_FILE=/shared/openvpn-status.log
 VPN_FILE=/shared/clients/dns.ovpn
 dnsmasq -d &
 openvpn ${VPN_FILE} &
-DPID="$(pgrep dnsmasq)"
 VPID="$(pgrep openvpn)"
 
 function log()
@@ -16,7 +15,7 @@ function log()
 
 function trap_term()
 {
-	kill ${DPID}
+	kill $(pgrep dnsmasq)
 	kill ${VPID}
 	log "Caught SIGTERM. Exiting"
 	exit 0
@@ -29,6 +28,7 @@ touch ${HOST_FILE}
 CLIENTS=""
 while true
 do
+	DPID="$(pgrep dnsmasq)"
 	sleep 60
 
 	NEW_CLIENTS="$(grep -E '^(\d{1,3}\.){3}\d{1,3}\,.*\,(\d{1,3}\.){3}\d{1,3}:' ${STATUS_FILE})"
