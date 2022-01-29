@@ -1,16 +1,34 @@
 version: '3'
 
 services:
-  dockervpn:
-    build: 
-      context: ./src
-    ports:
-      - "1194:1194/udp"
+  dns:
+    build:
+      args:
+        DOMAIN: $DOMAIN
+      context: ./src/dns
     volumes:
-      - ${PWD}/clients:/vpn/clients
-      - ${PWD}/pki:/vpn/pki
+      - ${PWD}/clients:/shared/clients
+      - openvpn-status:/shared/
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun
 
+  vpn:
+    build: 
+      args:
+        DOMAIN: $DOMAIN
+      context: ./src/vpn
+    ports:
+      - "1194:1194/udp"
+    volumes:
+      - ${PWD}/clients:/vpn/clients
+      - ${PWD}/pki:/vpn/pki
+      - openvpn-status:/shared/
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+
+volumes:
+  openvpn-status:
