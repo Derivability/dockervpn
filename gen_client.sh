@@ -1,13 +1,14 @@
 #!/bin/sh
+BASEDIR=$(dirname $0)
+source ${BASEDIR}/lib/utils.sh
 
 read -p "Enter Client name: " CLIENT_NAME
 read -p "Enter server IP address: " IP_ADDR
 read -p "Enter server port: " PORT
-read -s -p "Enter CA password: " CA_PASS
+CA_PASS=$(read_pass "Enter CA password: ")
 echo
 
 export DOMAIN=""
-BASEDIR=$(dirname $0)
 D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
 D_EXEC="${D_COMPOSE} exec vpn"
 
