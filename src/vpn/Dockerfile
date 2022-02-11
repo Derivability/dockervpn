@@ -10,7 +10,8 @@ COPY ccd/* /vpn/ccd/
 
 RUN apk add openvpn easy-rsa &&\
 sed -i 's/rm -rf \"\$EASYRSA_PKI\"/rm -rf \"\$EASYRSA_PKI\/\*\"/' /usr/share/easy-rsa/easyrsa &&\
-sed -i "s/__DOMAIN__/$DOMAIN/" /vpn/server.conf
+sed -i "s/__DOMAIN__/$DOMAIN/" /vpn/server.conf &&\
+chown nobody:nobody -R /vpn/ccd
 
 EXPOSE 1194/udp
 
