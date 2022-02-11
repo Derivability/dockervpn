@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function read_pass() {
 	stty_orig=$(stty -g)

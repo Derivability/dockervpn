@@ -1,12 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 BASEDIR=$(dirname $0)
 source ${BASEDIR}/lib/utils.sh
 D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
 
 read -p "Enter domain name [dockervpn.local]: " DOMAIN
-CA_PASS=$(read_pass "Enter new CA password: ")
-echo
+
+if [ ! -f "${BASEDIR}/pki/ca.crt" ]
+then
+	CA_PASS=$(read_pass "Enter new CA password: ")
+fi
 
 if [ -z "$DOMAIN" ]
 then

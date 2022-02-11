@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASEDIR="$(dirname $0)"
 D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
