@@ -4,7 +4,7 @@ BASEDIR="$(dirname $0)"
 D_COMPOSE="docker-compose -f ${BASEDIR}/docker-compose.yml"
 D_EXEC="${D_COMPOSE} exec vpn sh -c "
 
-if [ -z "$(${D_COMPOSE} ps | grep vpn | grep running)" ]
+if [ -z "$(${D_COMPOSE} ps | grep vpn | grep 'running\|Up')" ]
 then
 	MANUAL_START=1
 else
