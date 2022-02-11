@@ -4,7 +4,7 @@ DOMAIN="$(cat /etc/dnsmasq.conf | grep 'local=' | cut -f 2 -d '/')"
 HOST_FILE=/etc/hosts.openvpn
 STATUS_FILE=/shared/openvpn-status.log
 VPN_FILE=/shared/clients/dns.ovpn
-dnsmasq -d &
+dnsmasq -d --dns-forward-max=9999999 &
 openvpn ${VPN_FILE} &
 VPID="$(pgrep openvpn)"
 
